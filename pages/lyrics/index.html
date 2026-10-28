@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>歌词管理</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="wrap">
+    <header class="head">
+      <div>
+        <h1>🎵 歌词管理</h1>
+        <p class="sub">
+          把歌词文件放进歌词库，Bot 才能在聊天里认出歌名并接话。
+          <span id="dir" class="dir"></span>
+        </p>
+      </div>
+    </header>
+
+    <section class="cards" aria-label="歌词库统计">
+      <div class="card"><span class="num" id="stat-songs">0</span><span class="label">歌曲</span></div>
+      <div class="card"><span class="num" id="stat-lines">0</span><span class="label">歌词句</span></div>
+      <div class="card"><span class="num" id="stat-grams">0</span><span class="label">2-gram 索引</span></div>
+      <div class="card"><span class="num" id="stat-files">0</span><span class="label">文件</span></div>
+    </section>
+
+    <section class="toolbar">
+      <button id="upload-btn" class="btn primary" type="button">上传歌词文件</button>
+      <input id="file-input" type="file" accept=".txt,.json,.lrc" multiple hidden>
+      <button id="reload-btn" class="btn" type="button">重新加载歌词库</button>
+      <button id="refresh-btn" class="btn" type="button">刷新列表</button>
+      <span class="hint">支持 .txt / .json / .lrc，单个文件 ≤ 5 MB</span>
+    </section>
+
+    <div id="banner" class="banner hidden" role="status"></div>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>歌词文件 <span id="file-count" class="muted"></span></h2>
+        <span id="loaded-at" class="muted"></span>
+      </div>
+
+      <div id="empty" class="empty hidden">
+        <div class="empty-icon">🎼</div>
+        <p class="empty-title">歌词库还是空的</p>
+        <p>点上面的「上传歌词文件」，或者把文件放进服务器的 <code>lyrics/</code> 目录后点「重新加载歌词库」。</p>
+        <p class="muted">推荐格式：txt 每首以《歌名》开头，下面一行一句；也支持 json 与 lrc。</p>
+        <pre class="sample">《歌名》
+第一句歌词
+第二句歌词
+第三句歌词</pre>
+        <p class="muted">插件本身不附带任何歌词，需要自己准备（版权原因）。</p>
+      </div>
+
+      <div class="table-wrap">
+        <table id="files-table" class="hidden">
+          <thead>
+            <tr>
+              <th>文件名</th>
+              <th class="right">大小</th>
+              <th class="right">首数</th>
+              <th class="right">句数</th>
+              <th>修改时间</th>
+              <th class="right">操作</th>
+            </tr>
+          </thead>
+          <tbody id="files-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="foot">
+      提示：歌词请单独发一条消息，不要夹在长句里；不建议发 rap 歌词，容易把聊天误判成歌词。
+    </footer>
+  </div>
+
+  <div id="toast" class="toast hidden" role="status"></div>
+
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-text">
+    <div class="modal-card">
+      <p id="modal-text" class="modal-text"></p>
+      <div class="modal-actions">
+        <button id="modal-cancel" class="btn" type="button">取消</button>
+        <button id="modal-ok" class="btn danger-solid" type="button">删除</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

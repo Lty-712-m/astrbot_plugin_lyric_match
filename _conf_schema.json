@@ -1,0 +1,74 @@
+{
+    "enabled":  {
+                    "description":  "总开关",
+                    "hint":  "关闭后不再做歌词识别，也不会注入任何提示词。",
+                    "type":  "bool",
+                    "default":  true
+                },
+    "similarity_threshold":  {
+                                 "description":  "相似度阈值（第二段确认）",
+                                 "hint":  "规则预筛通过后，歌词库匹配的置信度必须达到这个值才会注入。默认 0.85；误判多就调高（0.88~0.95），漏识别多就调低（0.78~0.82）。",
+                                 "type":  "float",
+                                 "default":  0.85
+                             },
+    "min_length":  {
+                       "description":  "最小长度（字符数）",
+                       "hint":  "归一化后（去掉标点空格）少于这个长度的消息直接跳过。默认 8。",
+                       "type":  "int",
+                       "default":  8
+                   },
+    "private_only":  {
+                         "description":  "只在私聊生效",
+                         "hint":  "开启后群聊里不再识别歌词；默认关闭（群聊也生效）。",
+                         "type":  "bool",
+                         "default":  false
+                     },
+    "inject_template":  {
+                            "description":  "首次命中时的注入模板",
+                            "hint":  "可用占位符：{title} {song} {line} {next} {score}。{next} 是紧接的下一句歌词。",
+                            "type":  "text",
+                            "default":  "【歌词识别】主人刚才念的像是《{title}》的歌词：「{line}」。这首歌紧接着的下一句是：「{next}」。你要立刻认出来并惊喜地接话；可以顺势哼下一句，但必须用上面给出的这一句，不要自己编，也不要整段背。"
+                        },
+    "continue_template":  {
+                              "description":  "连续接唱时的注入模板",
+                              "hint":  "主人在连续唱歌时使用（不限同一首）。占位符同上。",
+                              "type":  "text",
+                              "default":  "【歌词接唱】主人正在连着唱歌，这一句像是《{title}》的：「{line}」。紧接着的下一句是：「{next}」。直接接着往下唱这一句就行，不要惊讶、不要重复「这是《{title}》」这类反应，也不要额外解释。"
+                          },
+    "sequence_window":  {
+                            "description":  "连续接唱判定窗口（秒）",
+                            "hint":  "短时间内的连续唱歌判定窗口（秒）。只要窗口内有过命中，就认为「还在连着唱」，不限同一首。设为 0 可关闭。",
+                            "type":  "int",
+                            "default":  180
+                        },
+    "extra_lyrics_dir":  {
+                             "description":  "额外歌词目录（可选）",
+                             "hint":  "除了插件自带 lyrics/ 之外，还想从别的目录读歌词时填这里；多个目录用英文分号 ; 分隔，相对路径按插件目录解析。留空即可。",
+                             "type":  "string",
+                             "default":  ""
+                         },
+    "candidate_k":  {
+                        "description":  "候选句数量",
+                        "hint":  "先用 2-gram 倒排索引取共享 2-gram 最多的前 N 句，再逐一算相似度。默认 20，歌词库很大时可适当调高。",
+                        "type":  "int",
+                        "default":  20
+                    },
+    "rule_threshold":  {
+                           "description":  "规则预筛阈值",
+                           "hint":  "第一段「像不像歌词」的规则得分门槛，默认 0.5。调高更保守（更少误判、更多漏识别），调低更激进。",
+                           "type":  "float",
+                           "default":  0.5
+                       },
+    "debug_log":  {
+                      "description":  "调试日志",
+                      "hint":  "开启后会把每条消息的预筛得分、候选歌名、相似度写进 AstrBot 日志，方便定位误判/漏判。",
+                      "type":  "bool",
+                      "default":  false
+                  },
+    "admin_only":  {
+                       "description":  "重载指令仅管理员可用",
+                       "hint":  "开启后 /lyric reload 只有 AstrBot 管理员能执行；list 和 stat 不受限制。",
+                       "type":  "bool",
+                       "default":  true
+                   }
+}

@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.vscode/
+.idea/
+lyrics/*.txt
+lyrics/*.json
+lyrics/*.lrc
+!lyrics/README.txt

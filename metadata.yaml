@@ -1,0 +1,36 @@
+name: astrbot_plugin_lyric_match
+display_name: 歌词识别
+short_desc: 主人念一句歌词时，让 Bot 认出是哪首歌并顺势接下一句
+desc: |
+  当主人说/哼出一句歌词时，插件在消息送进大模型前先做「像不像歌词」的规则预筛，
+  再用本地歌词库做 2-gram 倒排索引 + 模糊匹配；两段都通过后，才把歌名、原句和
+  **紧接着的下一句**注入 system prompt，让 Bot 立刻认出来、惊喜接话、顺势哼下去。
+
+  连续接唱：短时间内连续唱歌（不限同一首）时自动切到「接唱模式」，不再重复惊讶反应，
+  直接接着往下唱，更像真人。
+
+  使用建议：
+  1. 聊歌词时请把歌词单独发一条，不要夹在长句里——识别率最高。
+  2. 不建议发 rap 歌词——rap 的词和正常聊天很难区分，容易误判。
+  3. 支持外部导入 txt/json/lrc 歌词库：插件页面「歌词管理」可直接上传，或放进 lyrics/ 目录。
+  4. 插件本身不附带任何歌词，需要自己准备（版权原因）。
+help: |
+  /lyric reload  重新加载 lyrics/ 下的歌词库（管理员）
+  /lyric list    查看已经加载的歌
+  /lyric stat    查看歌词库统计
+  用法：把一句歌词单独发一条消息即可。
+version: 0.3.1
+author: Lty-712-m
+repo: https://github.com/Lty-712-m/astrbot_plugin_lyric_match
+astrbot_version: ">=4.27.0,<5"
+support_platforms:
+  - aiocqhttp
+category: 工具
+tags:
+  - 歌词
+  - 歌词识别
+  - 提示词注入
+  - 接唱
+pages:
+  - name: lyrics
+    title: 歌词管理
